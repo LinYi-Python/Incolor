@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.incolor.mapper.ManagerMapper">
+    <resultMap id="BaseResultMap" type="vip.incolor.entity.Manager">
+        <id column="manager_id" jdbcType="INTEGER" property="manager_id"/>
+        <result column="manager_account" jdbcType="VARCHAR" property="manager_account"/>
+        <result column="manager_password" jdbcType="VARCHAR" property="manager_password"/>
+        <result column="manager_level" jdbcType="TINYINT" property="manager_level"/>
+        <result column="manager_create_time" jdbcType="TIMESTAMP" property="manager_create_time"/>
+        <result column="manager_update_time" jdbcType="TIMESTAMP" property="manager_update_time"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        manager_id, manager_account, manager_password, manager_level, manager_create_time,
+        manager_update_time
+    </sql>
+    <select id="selectByExample" parameterType="vip.incolor.entity.ManagerExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'false' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from manager
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from manager
+        where manager_id = #{manager_id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM manager
+        WHERE manager_id = #{manager_id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="vip.incolor.entity.Manager">
+        INSERT INTO manager (manager_id, manager_account, manager_password,
+                             manager_level, manager_create_time, manager_update_time
+        )
+        VALUES
+            (#{manager_id,jdbcType=INTEGER}, #{manager_account,jdbcType=VARCHAR}, #{manager_password,jdbcType=VARCHAR},
+             #{manager_level,jdbcType=TINYINT}, #{manager_create_time,jdbcType=TIMESTAMP},
+             #{manager_update_time,jdbcType=TIMESTAMP}
+            )
+    </insert>
+    <insert id="insertSelective" parameterType="vip.incolor.entity.Manager">
+        insert into manager
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="manager_id != null">
+                manager_id,
+            </if>
+            <if test="manager_account != null">
+                manager_account,
+            </if>
+            <if test="manager_password != null">
+                manager_password,
+            </if>
+            <if test="manager_level != null">
+                manager_level,
+            </if>
+            <if test="manager_create_time != null">
+                manager_create_time,
+            </if>
+            <if test="manager_update_time != null">
+                manager_update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="manager_id != null">
+                #{manager_id,jdbcType=INTEGER},
+            </if>
+            <if test="manager_account != null">
+                #{manager_account,jdbcType=VARCHAR},
+            </if>
+            <if test="manager_password != null">
+                #{manager_password,jdbcType=VARCHAR},
+            </if>
+            <if test="manager_level != null">
+                #{manager_level,jdbcType=TINYINT},
+            </if>
+            <if test="manager_create_time != null">
+                #{manager_create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="manager_update_time != null">
+                #{manager_update_time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="vip.incolor.entity.Manager">
+        update manager
+        <set>
+            <if test="manager_account != null">
+                manager_account = #{manager_account,jdbcType=VARCHAR},
+            </if>
+            <if test="manager_password != null">
+                manager_password = #{manager_password,jdbcType=VARCHAR},
+            </if>
+            <if test="manager_level != null">
+                manager_level = #{manager_level,jdbcType=TINYINT},
+            </if>
+            <if test="manager_create_time != null">
+                manager_create_time = #{manager_create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="manager_update_time != null">
+                manager_update_time = #{manager_update_time,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where manager_id = #{manager_id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="vip.incolor.entity.Manager">
+        UPDATE manager
+        SET manager_account     = #{manager_account,jdbcType=VARCHAR},
+            manager_password    = #{manager_password,jdbcType=VARCHAR},
+            manager_level       = #{manager_level,jdbcType=TINYINT},
+            manager_create_time = #{manager_create_time,jdbcType=TIMESTAMP},
+            manager_update_time = #{manager_update_time,jdbcType=TIMESTAMP}
+        WHERE manager_id = #{manager_id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectByAccountAndPassword" resultType="vip.incolor.entity.Manager">
+        SELECT
+            manager_id,
+            manager_level,
+            manager_account
+        FROM manager
+        WHERE manager_account = #{account,jdbcType=VARCHAR}
+              AND manager_password = #{password,jdbcType=VARCHAR}
+    </select>
+
+    <select id="list" resultType="vip.incolor.entity.Manager">
+        SELECT *
+        FROM manager
+    </select>
+</mapper>

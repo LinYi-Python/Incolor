@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.incolor.mapper.ShoppingDetailMapper">
+  <resultMap id="BaseResultMap" type="vip.incolor.entity.ShoppingDetail">
+    <id column="shopping_detail_id" jdbcType="INTEGER" property="shopping_detail_id" />
+    <result column="shopping_property_id" jdbcType="INTEGER" property="shopping_property_id" />
+    <result column="shopping_property_name" jdbcType="VARCHAR" property="shopping_property_name" />
+    <result column="shopping_id" jdbcType="INTEGER" property="shopping_id" />
+    <result column="shopping_property_create_time" jdbcType="TIMESTAMP" property="shopping_property_create_time" />
+    <result column="shopping_property_update_time" jdbcType="TIMESTAMP" property="shopping_property_update_time" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    shopping_detail_id, shopping_property_id, shopping_property_name, shopping_id, shopping_property_create_time, 
+    shopping_property_update_time
+  </sql>
+  <select id="selectByExample" parameterType="vip.incolor.entity.ShoppingDetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from shopping_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shopping_detail
+    where shopping_detail_id = #{shopping_detail_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from shopping_detail
+    where shopping_detail_id = #{shopping_detail_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="vip.incolor.entity.ShoppingDetail">
+    insert into shopping_detail (shopping_detail_id, shopping_property_id, 
+      shopping_property_name, shopping_id, shopping_property_create_time, 
+      shopping_property_update_time)
+    values (#{shopping_detail_id,jdbcType=INTEGER}, #{shopping_property_id,jdbcType=INTEGER}, 
+      #{shopping_property_name,jdbcType=VARCHAR}, #{shopping_id,jdbcType=INTEGER}, #{shopping_property_create_time,jdbcType=TIMESTAMP}, 
+      #{shopping_property_update_time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="vip.incolor.entity.ShoppingDetail">
+    insert into shopping_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="shopping_detail_id != null">
+        shopping_detail_id,
+      </if>
+      <if test="shopping_property_id != null">
+        shopping_property_id,
+      </if>
+      <if test="shopping_property_name != null">
+        shopping_property_name,
+      </if>
+      <if test="shopping_id != null">
+        shopping_id,
+      </if>
+      <if test="shopping_property_create_time != null">
+        shopping_property_create_time,
+      </if>
+      <if test="shopping_property_update_time != null">
+        shopping_property_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="shopping_detail_id != null">
+        #{shopping_detail_id,jdbcType=INTEGER},
+      </if>
+      <if test="shopping_property_id != null">
+        #{shopping_property_id,jdbcType=INTEGER},
+      </if>
+      <if test="shopping_property_name != null">
+        #{shopping_property_name,jdbcType=VARCHAR},
+      </if>
+      <if test="shopping_id != null">
+        #{shopping_id,jdbcType=INTEGER},
+      </if>
+      <if test="shopping_property_create_time != null">
+        #{shopping_property_create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shopping_property_update_time != null">
+        #{shopping_property_update_time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="vip.incolor.entity.ShoppingDetail">
+    update shopping_detail
+    <set>
+      <if test="shopping_property_id != null">
+        shopping_property_id = #{shopping_property_id,jdbcType=INTEGER},
+      </if>
+      <if test="shopping_property_name != null">
+        shopping_property_name = #{shopping_property_name,jdbcType=VARCHAR},
+      </if>
+      <if test="shopping_id != null">
+        shopping_id = #{shopping_id,jdbcType=INTEGER},
+      </if>
+      <if test="shopping_property_create_time != null">
+        shopping_property_create_time = #{shopping_property_create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shopping_property_update_time != null">
+        shopping_property_update_time = #{shopping_property_update_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where shopping_detail_id = #{shopping_detail_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="vip.incolor.entity.ShoppingDetail">
+    update shopping_detail
+    set shopping_property_id = #{shopping_property_id,jdbcType=INTEGER},
+      shopping_property_name = #{shopping_property_name,jdbcType=VARCHAR},
+      shopping_id = #{shopping_id,jdbcType=INTEGER},
+      shopping_property_create_time = #{shopping_property_create_time,jdbcType=TIMESTAMP},
+      shopping_property_update_time = #{shopping_property_update_time,jdbcType=TIMESTAMP}
+    where shopping_detail_id = #{shopping_detail_id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.incolor.mapper.UserGivenEmailMapper">
+    <resultMap id="BaseResultMap" type="vip.incolor.entity.UserGivenEmail">
+        <id column="user_given_email_id" jdbcType="INTEGER" property="user_given_email_id"/>
+        <result column="user_given_email" jdbcType="VARCHAR" property="user_given_email"/>
+        <result column="user_given_email_create_time" jdbcType="TIMESTAMP" property="user_given_email_create_time"/>
+        <result column="user_given_email_update_time" jdbcType="TIMESTAMP" property="user_given_email_update_time"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        user_given_email_id, user_given_email, user_given_email_create_time, user_given_email_update_time
+    </sql>
+    <select id="selectByExample" parameterType="vip.incolor.entity.UserGivenEmailExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'false' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from user_given_email
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_given_email
+        where user_given_email_id = #{user_given_email_id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM user_given_email
+        WHERE user_given_email_id = #{user_given_email_id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="vip.incolor.entity.UserGivenEmail">
+        INSERT INTO user_given_email (user_given_email_id, user_given_email,
+                                      user_given_email_create_time, user_given_email_update_time
+        )
+        VALUES (#{user_given_email_id,jdbcType=INTEGER}, #{user_given_email,jdbcType=VARCHAR},
+                #{user_given_email_create_time,jdbcType=TIMESTAMP}, #{user_given_email_update_time,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="vip.incolor.entity.UserGivenEmail">
+        insert into user_given_email
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="user_given_email_id != null">
+                user_given_email_id,
+            </if>
+            <if test="user_given_email != null">
+                user_given_email,
+            </if>
+            <if test="user_given_email_create_time != null">
+                user_given_email_create_time,
+            </if>
+            <if test="user_given_email_update_time != null">
+                user_given_email_update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="user_given_email_id != null">
+                #{user_given_email_id,jdbcType=INTEGER},
+            </if>
+            <if test="user_given_email != null">
+                #{user_given_email,jdbcType=VARCHAR},
+            </if>
+            <if test="user_given_email_create_time != null">
+                #{user_given_email_create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="user_given_email_update_time != null">
+                #{user_given_email_update_time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="vip.incolor.entity.UserGivenEmail">
+        update user_given_email
+        <set>
+            <if test="user_given_email != null">
+                user_given_email = #{user_given_email,jdbcType=VARCHAR},
+            </if>
+            <if test="user_given_email_create_time != null">
+                user_given_email_create_time = #{user_given_email_create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="user_given_email_update_time != null">
+                user_given_email_update_time = #{user_given_email_update_time,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where user_given_email_id = #{user_given_email_id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="vip.incolor.entity.UserGivenEmail">
+        UPDATE user_given_email
+        SET user_given_email             = #{user_given_email,jdbcType=VARCHAR},
+            user_given_email_create_time = #{user_given_email_create_time,jdbcType=TIMESTAMP},
+            user_given_email_update_time = #{user_given_email_update_time,jdbcType=TIMESTAMP}
+        WHERE user_given_email_id = #{user_given_email_id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_given_email
+        where user_given_email = #{email}
+    </select>
+
+    <select id="selectDistinctSignUpEmail" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_given_email
+    </select>
+</mapper>

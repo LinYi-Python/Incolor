@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.incolor.mapper.ShoppingMapper">
+    <resultMap id="BaseResultMap" type="vip.incolor.entity.Shopping">
+        <id column="shopping_id" jdbcType="INTEGER" property="shopping_id"/>
+        <result column="product_id" jdbcType="INTEGER" property="product_id"/>
+        <result column="user_id" jdbcType="INTEGER" property="user_id"/>
+        <result column="is_payed" jdbcType="BIT" property="is_payed"/>
+        <result column="shopping_number" jdbcType="INTEGER" property="shopping_number"/>
+        <result column="shopping_price" jdbcType="DOUBLE" property="shopping_price"/>
+        <result column="shopping_create_time" jdbcType="TIMESTAMP" property="shopping_create_time"/>
+        <result column="shopping_update_time" jdbcType="TIMESTAMP" property="shopping_update_time"/>
+        <result column="order_id" jdbcType="INTEGER" property="order_id"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        shopping_id, product_id, user_id, is_payed, shopping_number, shopping_price, shopping_create_time,
+        shopping_update_time, order_id
+    </sql>
+    <select id="selectByExample" parameterType="vip.incolor.entity.ShoppingExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'false' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from shopping
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from shopping
+        where shopping_id = #{shopping_id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM shopping
+        WHERE shopping_id = #{shopping_id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="vip.incolor.entity.Shopping">
+        INSERT INTO shopping (shopping_id, product_id, user_id,
+                              is_payed, shopping_number, shopping_price,
+                              shopping_create_time, shopping_update_time,
+                              order_id)
+        VALUES (#{shopping_id,jdbcType=INTEGER}, #{product_id,jdbcType=INTEGER}, #{user_id,jdbcType=INTEGER},
+                #{is_payed,jdbcType=BIT}, #{shooping_number,jdbcType=INTEGER}, #{shopping_price,jdbcType=DOUBLE},
+                #{shopping_create_time,jdbcType=TIMESTAMP}, #{shopping_update_time,jdbcType=TIMESTAMP},
+                #{order_id,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="vip.incolor.entity.Shopping">
+        insert into shopping
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="shopping_id != null">
+                shopping_id,
+            </if>
+            <if test="product_id != null">
+                product_id,
+            </if>
+            <if test="user_id != null">
+                user_id,
+            </if>
+            <if test="is_payed != null">
+                is_payed,
+            </if>
+            <if test="shopping_number != null">
+                shopping_number,
+            </if>
+            <if test="shopping_price != null">
+                shopping_price,
+            </if>
+            <if test="shopping_create_time != null">
+                shopping_create_time,
+            </if>
+            <if test="shopping_update_time != null">
+                shopping_update_time,
+            </if>
+            <if test="order_id != null">
+                order_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="shopping_id != null">
+                #{shopping_id,jdbcType=INTEGER},
+            </if>
+            <if test="product_id != null">
+                #{product_id,jdbcType=INTEGER},
+            </if>
+            <if test="user_id != null">
+                #{user_id,jdbcType=INTEGER},
+            </if>
+            <if test="is_payed != null">
+                #{is_payed,jdbcType=BIT},
+            </if>
+            <if test="shopping_number != null">
+                #{shopping_number,jdbcType=INTEGER},
+            </if>
+            <if test="shopping_price != null">
+                #{shopping_price,jdbcType=DOUBLE},
+            </if>
+            <if test="shopping_create_time != null">
+                #{shopping_create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="shopping_update_time != null">
+                #{shopping_update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="order_id != null">
+                #{order_id,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="vip.incolor.entity.Shopping">
+        update shopping
+        <set>
+            <if test="product_id != null">
+                product_id = #{product_id,jdbcType=INTEGER},
+            </if>
+            <if test="user_id != null">
+                user_id = #{user_id,jdbcType=INTEGER},
+            </if>
+            <if test="is_payed != null">
+                is_payed = #{is_payed,jdbcType=BIT},
+            </if>
+            <if test="shopping_number != null">
+                shooping_number = #{shooping_number,jdbcType=INTEGER},
+            </if>
+            <if test="shopping_price != null">
+                shopping_price = #{shopping_price,jdbcType=DOUBLE},
+            </if>
+            <if test="shopping_create_time != null">
+                shopping_create_time = #{shopping_create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="shopping_update_time != null">
+                shopping_update_time = #{shopping_update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="order_id != null">
+                order_id = #{order_id,jdbcType=INTEGER},
+            </if>
+        </set>
+        where shopping_id = #{shopping_id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="vip.incolor.entity.Shopping">
+        UPDATE shopping
+        SET product_id           = #{product_id,jdbcType=INTEGER},
+            user_id              = #{user_id,jdbcType=INTEGER},
+            is_payed             = #{is_payed,jdbcType=BIT},
+            shopping_number      = #{shopping_number,jdbcType=INTEGER},
+            shopping_price       = #{shopping_price,jdbcType=DOUBLE},
+            shopping_create_time = #{shopping_create_time,jdbcType=TIMESTAMP},
+            shopping_update_time = #{shopping_update_time,jdbcType=TIMESTAMP},
+            order_id             = #{order_id,jdbcType=INTEGER}
+        WHERE shopping_id = #{shopping_id,jdbcType=INTEGER}
+    </update>
+
+    <resultMap id="cartMap" type="vip.incolor.dto.FrontOrder">
+        <id column="spid" jdbcType="INTEGER" property="shoppingId"/>
+        <result column="path" jdbcType="VARCHAR" property="imgPath"/>
+        <result column="pname" jdbcType="VARCHAR" property="productName"/>
+        <result column="num" jdbcType="INTEGER" property="number"/>
+        <result column="price" jdbcType="INTEGER" property="price" javaType="java.lang.Double"/>
+    </resultMap>
+
+    <select id="getUnPayedShoppingCart" parameterType="java.lang.Integer" resultMap="cartMap">
+        SELECT
+            sp.shopping_id          AS spid,
+            pp.product_picture_path AS path,
+            p.product_name          AS pname,
+            sp.shopping_number      AS num,
+            p.product_price         AS price
+        FROM shopping AS sp,
+            product AS p,
+            product_picture AS pp
+        WHERE sp.product_id = p.product_id
+              AND p.product_id = pp.product_id
+              AND sp.user_id = #{userId,jdbcType=INTEGER}
+              AND sp.is_payed = 0
+    </select>
+
+    <!-- 此用户加入购物车的但未支付的产品-->
+    <select id="selectProductByProductIdAndUserId" resultType="vip.incolor.entity.Shopping">
+        SELECT
+            shopping_id          shopping_id,
+            product_id           product_id,
+            user_id              user_id,
+            is_payed             is_payed,
+            shopping_number      shopping_number,
+            shopping_price       shopping_price,
+            shopping_create_time shopping_create_time,
+            shopping_update_time shopping_update_time
+        FROM shopping
+        WHERE product_id = #{productId} AND user_id = #{userId} AND is_payed = 0
+    </select>
+
+    <!-- 添加购物车 -->
+    <insert id="insertShopping" parameterType="vip.incolor.entity.Shopping" useGeneratedKeys="true"
+            keyProperty="shopping_id">
+        INSERT INTO shopping (product_id, user_id, is_payed,
+                              shopping_number, shopping_price, shopping_create_time,
+                              shopping_update_time
+        )
+        VALUES (#{product_id}, #{user_id},
+                0, 1, #{shopping_price}, now(), now()
+        )
+    </insert>
+
+    <update id="updateByShoppingNumber" parameterType="java.lang.Integer">
+        UPDATE shopping
+        SET shopping_number = #{shoppingNumber}
+        WHERE shopping_id = #{shoppingId}
+    </update>
+
+
+    <insert id="insertDetail" parameterType="vip.incolor.vo.PropertyVO" useGeneratedKeys="true"
+            keyProperty="shoppingDetailId">
+        INSERT INTO shopping_detail (shopping_property_id, shopping_property_name, product_id, shopping_id,
+                                     shopping_property_create_time, shopping_property_update_time
+        )
+        VALUES (#{propertyId}, #{propertyName}, #{productId},
+                #{shoppingId}, now(), now()
+        )
+    </insert>
+
+    <insert id="insertPropertyValue" parameterType="vip.incolor.vo.PropertyVO">
+        INSERT INTO shopping_property_value (shopping_property_value, shopping_detail_id, shopping_property_id, shopping_property_value_create_time,
+                                             shopping_property_value_update_time
+        )
+        VALUES (#{vo.propertyValue}, #{vo.shoppingDetailId}, #{vo.propertyId},
+                now(), now()
+        )
+    </insert>
+
+    <delete id="deleteShoppingTrolleySecond" parameterType="java.lang.Integer">
+        DELETE s
+        FROM shopping s
+        WHERE s.shopping_id = #{shoppingId}
+    </delete>
+
+    <delete id="deleteShoppingTrolley" parameterType="java.lang.Integer">
+        DELETE s, sd, sv
+        FROM shopping s, shopping_detail sd, shopping_property_value sv
+        WHERE s.shopping_id = #{shoppingId} AND s.shopping_id = sd.shopping_id AND
+              sd.shopping_detail_id = sv.shopping_detail_id
+    </delete>
+
+    <delete id="deleteShoppingTrolleyDetailAndValue" parameterType="java.lang.Integer">
+        DELETE sd, sv
+        FROM shopping_detail sd, shopping_property_value sv
+        WHERE sd.shopping_id = #{shoppingId} AND sd.shopping_property_id = sv.shopping_property_id
+    </delete>
+
+
+    <!-- -->
+    <select id="selectProductByShoppingId" resultType="vip.incolor.entity.Shopping">
+        SELECT
+            shopping_id          shopping_id,
+            product_id           product_id,
+            user_id              user_id,
+            is_payed             isPayed,
+            shopping_number      shopping_number,
+            shopping_price       shopping_price,
+            shopping_create_time shopping_create_time,
+            shopping_update_time shopping_update_time
+        FROM shopping
+        WHERE shopping_id = #{shoppingId}
+    </select>
+
+    <select id="selectShoppingByUserId" parameterType="java.lang.Integer" resultMap="getShoppingCartMap">
+        SELECT *
+        FROM shopping s, product p
+        WHERE s.user_id = #{userId} AND s.is_payed = 0 AND s.product_id = p.product_id
+    </select>
+
+    <resultMap id="getShoppingCartMap" type="vip.incolor.vo.ShoppingCartVO">
+        <id column="shopping_id" jdbcType="INTEGER" property="shoppingId"/>
+        <result property="shoppingNumber" column="shopping_number"/>
+        <result property="shoppingPrice" column="shopping_price"/>
+        <association property="productVO" javaType="vip.incolor.vo.ProductVO">
+            <result property="productId" column="product_id"/>
+            <result property="productName" column="product_name"/>
+            <result property="productClassId" column="product_class_id"/>
+            <result property="productPrice" column="product_price"/>
+            <result property="productNumber" column="product_number"/>
+            <result property="productAttachId" column="product_attach_id"/>
+            <result property="createTime" column="product_create_time"/>
+        </association>
+    </resultMap>
+
+    <select id="selectProductPropertyByProductIdAndShoppingId" parameterType="java.lang.Integer"
+            resultType="vip.incolor.vo.PropertyVO">
+        SELECT
+            s.shopping_property_id    propertyId,
+            s.shopping_property_name  propertyName,
+            v.shopping_property_value propertyValue,
+            p.property_price          propertyPrice
+        FROM shopping_detail s, shopping_property_value v, property_value p
+        WHERE s.product_id = #{productId} AND s.shopping_id = #{shoppingId} AND
+              s.shopping_detail_id = v.shopping_detail_id AND
+              v.shopping_property_id = p.property_id AND
+              v.shopping_property_value = p.property_value
+    </select>
+
+
+    <select id="selectPayedShoppingByOrderId" resultMap="getShoppingCartMap">
+        SELECT *
+        FROM shopping s, product p
+        WHERE s.user_id = #{userId,jdbcType=INTEGER} AND s.is_payed = 1 AND s.product_id = p.product_id
+              AND s.order_id = #{orderId,jdbcType=INTEGER}
+    </select>
+
+    <update id="pay">
+        UPDATE shopping
+        SET is_payed = 1
+        WHERE order_id = #{orderId,jdbcType=INTEGER}
+    </update>
+
+    <select id="countShoppingCartSum" resultType="int">
+        SELECT count(*)
+        FROM shopping
+        WHERE user_id = #{userId} AND is_payed = 0
+    </select>
+
+</mapper>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.incolor.mapper.ClassifyMapper">
+  <resultMap id="BaseResultMap" type="vip.incolor.entity.Classify">
+    <id column="class_id" jdbcType="INTEGER" property="class_id" />
+    <result column="class_name" jdbcType="VARCHAR" property="class_name" />
+    <result column="is_parent" jdbcType="BIT" property="is_parent" />
+    <result column="parent_id" jdbcType="INTEGER" property="parent_id" />
+    <result column="class_create_time" jdbcType="TIMESTAMP" property="class_create_time" />
+    <result column="class_update_time" jdbcType="TIMESTAMP" property="class_update_time" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    class_id, class_name, is_parent, parent_id, class_create_time, class_update_time
+  </sql>
+  <select id="selectByExample" parameterType="vip.incolor.entity.ClassifyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from classify
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from classify
+    where class_id = #{class_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from classify
+    where class_id = #{class_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="vip.incolor.entity.Classify">
+    insert into classify (class_id, class_name, is_parent, 
+      parent_id, class_create_time, class_update_time
+      )
+    values (#{class_id,jdbcType=INTEGER}, #{class_name,jdbcType=VARCHAR}, #{is_parent,jdbcType=BIT}, 
+      #{parent_id,jdbcType=INTEGER}, #{class_create_time,jdbcType=TIMESTAMP}, #{class_update_time,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="vip.incolor.entity.Classify">
+    insert into classify
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="class_id != null">
+        class_id,
+      </if>
+      <if test="class_name != null">
+        class_name,
+      </if>
+      <if test="is_parent != null">
+        is_parent,
+      </if>
+      <if test="parent_id != null">
+        parent_id,
+      </if>
+      <if test="class_create_time != null">
+        class_create_time,
+      </if>
+      <if test="class_update_time != null">
+        class_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="class_id != null">
+        #{class_id,jdbcType=INTEGER},
+      </if>
+      <if test="class_name != null">
+        #{class_name,jdbcType=VARCHAR},
+      </if>
+      <if test="is_parent != null">
+        #{is_parent,jdbcType=BIT},
+      </if>
+      <if test="parent_id != null">
+        #{parent_id,jdbcType=INTEGER},
+      </if>
+      <if test="class_create_time != null">
+        #{class_create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="class_update_time != null">
+        #{class_update_time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="vip.incolor.entity.Classify">
+    update classify
+    <set>
+      <if test="class_name != null">
+        class_name = #{class_name,jdbcType=VARCHAR},
+      </if>
+      <if test="is_parent != null">
+        is_parent = #{is_parent,jdbcType=BIT},
+      </if>
+      <if test="parent_id != null">
+        parent_id = #{parent_id,jdbcType=INTEGER},
+      </if>
+      <if test="class_create_time != null">
+        class_create_time = #{class_create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="class_update_time != null">
+        class_update_time = #{class_update_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where class_id = #{class_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="vip.incolor.entity.Classify">
+    update classify
+    set class_name = #{class_name,jdbcType=VARCHAR},
+      is_parent = #{is_parent,jdbcType=BIT},
+      parent_id = #{parent_id,jdbcType=INTEGER},
+      class_create_time = #{class_create_time,jdbcType=TIMESTAMP},
+      class_update_time = #{class_update_time,jdbcType=TIMESTAMP}
+    where class_id = #{class_id,jdbcType=INTEGER}
+  </update>
+
+<!-- 查询所有的一级类目 -->
+    <select id="selectAllTopClassify" resultType="vip.incolor.entity.Classify">
+        SELECT *
+        FROM classify
+        WHERE is_parent = 1
+    </select>
+
+    <!-- 查询所有的类目 -->
+    <select id="selectSecondaryClassifyById" parameterType="java.lang.Integer" resultType="vip.incolor.entity.Classify">
+        SELECT *
+        FROM classify
+        WHERE parent_id = #{classId}
+    </select>
+
+  <select id="list" resultType="vip.incolor.entity.Classify">
+    SELECT * FROM classify
+  </select>
+
+</mapper>

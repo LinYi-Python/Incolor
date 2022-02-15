@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.incolor.mapper.ArticleMapper">
+    <resultMap id="BaseResultMap" type="vip.incolor.entity.Article">
+        <id column="article_id" jdbcType="INTEGER" property="article_id"/>
+        <result column="article_label" jdbcType="VARCHAR" property="article_label"/>
+        <result column="article_desc" jdbcType="VARCHAR" property="article_desc"/>
+        <result column="article_title" jdbcType="VARCHAR" property="article_title"/>
+        <result column="article_picture" jdbcType="VARCHAR" property="article_picture"/>
+        <result column="article_create_time" jdbcType="TIMESTAMP" property="article_create_time"/>
+        <result column="article_update_time" jdbcType="TIMESTAMP" property="article_update_time"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        article_id, article_label, article_desc, article_title, article_picture, article_create_time, article_update_time
+    </sql>
+    <select id="selectByExample" parameterType="vip.incolor.entity.ArticleExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'false' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from article
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from article
+        where article_id = #{article_id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM article
+        WHERE article_id = #{article_id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="vip.incolor.entity.Article">
+        INSERT INTO article (article_label, article_desc, article_title,
+                             article_picture, article_create_time,
+                             article_update_time)
+        VALUES (#{article_label,jdbcType=VARCHAR}, #{article_desc,jdbcType=VARCHAR}, #{article_title,jdbcType=VARCHAR},
+                #{article_picture,jdbcType=VARCHAR}, now(),
+                now())
+    </insert>
+    <insert id="insertSelective" parameterType="vip.incolor.entity.Article">
+        insert into article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="article_id != null">
+                article_id,
+            </if>
+            <if test="article_label != null">
+                article_label,
+            </if>
+            <if test="article_title != null">
+                article_title,
+            </if>
+            <if test="article_picture != null">
+                article_picture,
+            </if>
+            <if test="article_create_time != null">
+                article_create_time,
+            </if>
+            <if test="article_update_time != null">
+                article_update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="article_id != null">
+                #{article_id,jdbcType=INTEGER},
+            </if>
+            <if test="article_label != null">
+                #{article_label,jdbcType=VARCHAR},
+            </if>
+            <if test="article_title != null">
+                #{article_title,jdbcType=VARCHAR},
+            </if>
+            <if test="article_picture != null">
+                #{article_picture,jdbcType=VARCHAR},
+            </if>
+            <if test="article_create_time != null">
+                #{article_create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="article_update_time != null">
+                #{article_update_time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="vip.incolor.entity.Article">
+        update article
+        <set>
+            <if test="article_label != null">
+                article_lable = #{article_lable,jdbcType=VARCHAR},
+            </if>
+            <if test="article_title != null">
+                article_title = #{article_title,jdbcType=VARCHAR},
+            </if>
+            <if test="article_picture != null">
+                article_picture = #{article_picture,jdbcType=VARCHAR},
+            </if>
+            <if test="article_create_time != null">
+                article_create_time = #{article_create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="article_update_time != null">
+                article_update_time = #{article_update_time,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where article_id = #{article_id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="vip.incolor.entity.Article">
+        UPDATE article
+        SET article_label       = #{article_label,jdbcType=VARCHAR},
+            article_title       = #{article_title,jdbcType=VARCHAR},
+            article_picture     = #{article_picture,jdbcType=VARCHAR},
+            article_create_time = #{article_create_time,jdbcType=TIMESTAMP},
+            article_update_time = #{article_update_time,jdbcType=TIMESTAMP}
+        WHERE article_id = #{article_id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectArticleByName" parameterType="java.lang.String" resultType="vip.incolor.entity.Article">
+        SELECT
+            article_id          article_id,
+            article_label       article_label,
+            article_desc        article_desc,
+            article_title       article_title,
+            article_picture     article_picture,
+            article_create_time article_create_time
+        FROM article
+        WHERE
+            LOCATE(#{searchContent}, article_title) > 0
+            OR LOCATE(#{searchContent}, article_label) > 0
+    </select>
+
+
+    <select id="selectAllArticle" resultType="vip.incolor.entity.Article">
+        SELECT
+            article_id                                 article_id,
+            article_label                              article_label,
+            article_desc                               article_desc,
+            article_title                              article_title,
+            article_picture                            article_picture,
+            DATE_FORMAT(article_create_time, '%y%m%d') article_create_time,
+            DATE_FORMAT(article_update_time, '%y%m%d') article_update_time
+        FROM article
+    </select>
+
+    <select id="selectArticleById" parameterType="java.lang.Integer" resultType="vip.incolor.entity.Article">
+        SELECT
+            article_id                                 article_id,
+            article_label                              article_label,
+            article_desc                               article_desc,
+            article_title                              article_title,
+            article_picture                            article_picture,
+            DATE_FORMAT(article_create_time, '%y%m%d') article_create_time,
+            DATE_FORMAT(article_update_time, '%y%m%d') article_update_time
+        FROM article
+        WHERE article_id = #{articleId}
+    </select>
+</mapper>

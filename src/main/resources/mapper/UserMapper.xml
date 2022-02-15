@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.incolor.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="vip.incolor.entity.User">
+        <id column="user_id" jdbcType="INTEGER" property="user_id"/>
+        <result column="user_account" jdbcType="VARCHAR" property="user_account"/>
+        <result column="user_password" jdbcType="VARCHAR" property="user_password"/>
+        <result column="user_phone" jdbcType="VARCHAR" property="user_phone"/>
+        <result column="user_mail" jdbcType="VARCHAR" property="user_mail"/>
+        <result column="user_family_name" jdbcType="VARCHAR" property="user_family_name"/>
+        <result column="user_given_name" jdbcType="VARCHAR" property="user_given_name"/>
+        <result column="user_gender" jdbcType="BIT" property="user_gender"/>
+        <result column="user_enable" jdbcType="BIT" property="user_enable"/>
+        <result column="user_pass" jdbcType="BIT" property="user_pass"/>
+        <result column="out_dated_time" jdbcType="TIMESTAMP" property="out_dated_time"/>
+        <result column="user_create_time" jdbcType="TIMESTAMP" property="user_create_time"/>
+        <result column="user_update_time" jdbcType="TIMESTAMP" property="user_update_time"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        user_id, user_account, user_password, user_phone, user_mail, user_family_name, user_given_name,
+        user_gender, user_enable, user_pass, out_dated_time, user_create_time, user_update_time
+    </sql>
+    <select id="selectByExample" parameterType="vip.incolor.entity.UserExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'false' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where user_id = #{user_id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM user
+        WHERE user_id = #{user_id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="vip.incolor.entity.User">
+        INSERT INTO user (user_id, user_account, user_password,
+                          user_phone, user_mail, user_family_name,
+                          user_given_name, user_gender, user_enable, user_pass,
+                          out_dated_time, user_create_time, user_update_time
+        )
+        VALUES (#{user_id,jdbcType=INTEGER}, #{user_account,jdbcType=VARCHAR}, #{user_password,jdbcType=VARCHAR},
+                                             #{user_phone,jdbcType=VARCHAR}, #{user_mail,jdbcType=VARCHAR},
+                                             #{user_family_name,jdbcType=VARCHAR},
+                                             #{user_given_name,jdbcType=VARCHAR}, #{user_gender,jdbcType=BIT},
+                                             #{user_enable,jdbcType=BIT}, #{user_pass,jdbcType=BIT},
+                                             #{out_dated_time,jdbcType=TIMESTAMP},
+                #{user_create_time,jdbcType=TIMESTAMP},
+                #{user_update_time,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="vip.incolor.entity.User">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="user_id != null">
+                user_id,
+            </if>
+            <if test="user_account != null">
+                user_account,
+            </if>
+            <if test="user_password != null">
+                user_password,
+            </if>
+            <if test="user_phone != null">
+                user_phone,
+            </if>
+            <if test="user_mail != null">
+                user_mail,
+            </if>
+            <if test="user_family_name != null">
+                user_family_name,
+            </if>
+            <if test="user_given_name != null">
+                user_given_name,
+            </if>
+            <if test="user_gender != null">
+                user_gender,
+            </if>
+            <if test="user_enable != null">
+                user_enable,
+            </if>
+            <if test="user_pass != null">
+                user_pass,
+            </if>
+            <if test="out_dated_time != null">
+                out_dated_time,
+            </if>
+            <if test="user_create_time != null">
+                user_create_time,
+            </if>
+            <if test="user_update_time != null">
+                user_update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="user_id != null">
+                #{user_id,jdbcType=INTEGER},
+            </if>
+            <if test="user_account != null">
+                #{user_account,jdbcType=VARCHAR},
+            </if>
+            <if test="user_password != null">
+                #{user_password,jdbcType=VARCHAR},
+            </if>
+            <if test="user_phone != null">
+                #{user_phone,jdbcType=VARCHAR},
+            </if>
+            <if test="user_mail != null">
+                #{user_mail,jdbcType=VARCHAR},
+            </if>
+            <if test="user_family_name != null">
+                #{user_family_name,jdbcType=VARCHAR},
+            </if>
+            <if test="user_given_name != null">
+                #{user_given_name,jdbcType=VARCHAR},
+            </if>
+            <if test="user_gender != null">
+                #{user_gender,jdbcType=BIT},
+            </if>
+            <if test="user_enable != null">
+                #{user_enable,jdbcType=BIT},
+            </if>
+            <if test="user_pass != null">
+                #{user_pass,jdbcType=BIT},
+            </if>
+            <if test="out_dated_time != null">
+                #{out_dated_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="user_create_time != null">
+                #{user_create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="user_update_time != null">
+                #{user_update_time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="vip.incolor.entity.User">
+        update user
+        <set>
+            <if test="user_account != null">
+                user_account = #{user_account,jdbcType=VARCHAR},
+            </if>
+            <if test="user_password != null">
+                user_password = #{user_password,jdbcType=VARCHAR},
+            </if>
+            <if test="user_phone != null">
+                user_phone = #{user_phone,jdbcType=VARCHAR},
+            </if>
+            <if test="user_mail != null">
+                user_mail = #{user_mail,jdbcType=VARCHAR},
+            </if>
+            <if test="user_family_name != null">
+                user_family_name = #{user_family_name,jdbcType=VARCHAR},
+            </if>
+            <if test="user_given_name != null">
+                user_given_name = #{user_given_name,jdbcType=VARCHAR},
+            </if>
+            <if test="user_gender != null">
+                user_gender = #{user_gender,jdbcType=BIT},
+            </if>
+            <if test="user_enable != null">
+                user_enable = #{user_enable,jdbcType=BIT},
+            </if>
+            <if test="user_pass != null">
+                user_pass = #{user_pass,jdbcType=BIT},
+            </if>
+            <if test="out_dated_time != null">
+                out_dated_time = #{out_dated_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="user_create_time != null">
+                user_create_time = #{user_create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="user_update_time != null">
+                user_update_time = #{user_update_time,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where user_id = #{user_id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="vip.incolor.entity.User">
+        UPDATE user
+        SET user_account     = #{user_account,jdbcType=VARCHAR},
+            user_password    = #{user_password,jdbcType=VARCHAR},
+            user_phone       = #{user_phone,jdbcType=VARCHAR},
+            user_mail        = #{user_mail,jdbcType=VARCHAR},
+            user_family_name = #{user_family_name,jdbcType=VARCHAR},
+            user_given_name  = #{user_given_name,jdbcType=VARCHAR},
+            user_gender      = #{user_gender,jdbcType=BIT},
+            user_enable      = #{user_enable,jdbcType=BIT},
+            user_pass        = #{user_pass,jdbcType=BIT},
+            out_dated_time   = #{out_dated_time,jdbcType=TIMESTAMP},
+            user_create_time = #{user_create_time,jdbcType=TIMESTAMP},
+            user_update_time = #{user_update_time,jdbcType=TIMESTAMP}
+        WHERE user_id = #{user_id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 添加注册用户 -->
+    <insert id="addUser" parameterType="vip.incolor.entity.RegisterUser" useGeneratedKeys="true" keyProperty="user_id">
+        INSERT INTO user (user_account, user_password,
+                          user_mail,
+                          user_family_name, user_given_name, user_gender,
+                          out_dated_time, user_create_time, user_update_time
+        )
+        VALUES (#{user_account}, #{user_password},
+                #{user_mail},
+                #{user_family_name}, #{user_given_name},
+                #{user_gender},
+                #{out_dated_time}, now(), now()
+        )
+    </insert>
+
+    <!-- 通过邮箱查询用户 -->
+    <select id="findUserByEmail" parameterType="java.lang.String" resultType="vip.incolor.entity.User">
+        SELECT *
+        FROM user
+        WHERE user_mail = #{email}
+    </select>
+
+    <update id="updateStatus" parameterType="java.lang.String">
+        UPDATE user
+        SET user_pass = 1
+        WHERE user_mail = #{email}
+    </update>
+
+    <!-- 查询所有用户 -->
+    <select id="selectUser" resultType="vip.incolor.entity.User">
+        SELECT *
+        FROM user
+        WHERE user_pass = 1
+        ORDER BY user_id DESC
+    </select>
+
+    <!-- 冻结用户 -->
+    <update id="freezeUser" parameterType="java.lang.Integer">
+        UPDATE user
+        SET user_enable = 0
+        WHERE user_id = #{userId}
+    </update>
+
+    <update id="unfreezeUser" parameterType="java.lang.Integer">
+        UPDATE user
+        SET user_enable = 1
+        WHERE user_id = #{userId}
+    </update>
+
+
+    <!-- 查询所有用户 -->
+    <select id="selectUserByCondition" parameterType="vip.incolor.dto.SearchCondition"
+            resultType="vip.incolor.entity.User">
+        SELECT *
+        FROM user
+        WHERE user_create_time BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+    <!-- 通过帐号密码查询用户-->
+    <select id="selectByAccountAndPassword" resultType="vip.incolor.entity.User">
+        SELECT
+            user_id,
+            user_phone,
+            user_mail,
+            user_family_name,
+            user_given_name,
+            user_gender
+        FROM user
+        WHERE user_account = #{email,jdbcType=VARCHAR}
+              AND user_password = #{password,jdbcType=VARCHAR}
+              AND user_pass = 1
+              AND user_enable = 1
+    </select>
+
+
+    <!-- 添加注册用户 -->
+    <insert id="addWeixinUUID">
+        INSERT INTO weixin_uuid (weixin_uuid, user_id)
+        VALUES (#{openid}, #{userId})
+    </insert>
+
+    <!-- 添加注册用户 -->
+    <insert id="addQQUUID">
+        INSERT INTO qq_uuid (qq_uuid, user_id)
+        VALUES (#{openid}, #{userId})
+    </insert>
+
+    <!-- 添加注册用户 -->
+    <insert id="addWeiboUUID">
+        INSERT INTO weibo_uuid (weibo_uuid, user_id)
+        VALUES (#{openid}, #{userId})
+    </insert>
+
+
+    <!-- 查询 openid -->
+    <select id="selectWeixinUUid" resultType="java.lang.Integer">
+        SELECT user_id
+        FROM weixin_uuid
+        WHERE weixin_uuid = #{openid}
+    </select>
+
+
+    <!-- 查询 openid -->
+    <select id="selectQQUUid" resultType="java.lang.Integer">
+        SELECT user_id
+        FROM qq_uuid
+        WHERE qq_uuid = #{openid}
+    </select>
+
+
+    <!-- 查询 openid -->
+    <select id="selectWeiboUUid" resultType="java.lang.Integer">
+        SELECT user_id
+        FROM weibo_uuid
+        WHERE weibo_uuid = #{openid}
+    </select>
+
+    <select id="getByIdAndPassword" resultType="vip.incolor.entity.User">
+        SELECT *
+        FROM user
+        WHERE user_id = #{id,jdbcType=INTEGER}
+              AND user_password = #{password,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByAccount" parameterType="java.lang.String" resultType="vip.incolor.entity.User">
+        SELECT *
+        FROM user
+        WHERE user_account = #{account,jdbcType=VARCHAR}
+              AND user_pass = 1
+    </select>
+
+    <select id="selectByEmail" parameterType="java.lang.String" resultType="vip.incolor.entity.User">
+        SELECT *
+        FROM user
+        WHERE user_mail = #{email,jdbcType=VARCHAR}
+    </select>
+
+
+    <!-- 修改密码 -->
+    <update id="updatePassword">
+        UPDATE user
+        SET user_password = #{password}
+        WHERE user_account = #{email}
+    </update>
+
+</mapper>

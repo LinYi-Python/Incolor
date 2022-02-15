@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.incolor.mapper.CarouselMapper">
+    <resultMap id="BaseResultMap" type="vip.incolor.entity.Carousel">
+        <id column="carousel_id" jdbcType="INTEGER" property="carousel_id"/>
+        <result column="carousel_style" jdbcType="BIT" property="carousel_style"/>
+        <result column="carousel_path" jdbcType="VARCHAR" property="carousel_path"/>
+        <result column="carousel_create_time" jdbcType="TIMESTAMP" property="carousel_create_time"/>
+        <result column="carousel_update_time" jdbcType="TIMESTAMP" property="carousel_update_time"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        carousel_id, carousel_style, carousel_path, carousel_create_time, carousel_update_time
+    </sql>
+    <select id="selectByExample" parameterType="vip.incolor.entity.CarouselExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'false' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from carousel
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from carousel
+        where carousel_id = #{carousel_id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM carousel
+        WHERE carousel_id = #{carousel_id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="vip.incolor.entity.Carousel">
+        INSERT INTO carousel (carousel_style, carousel_path,
+                              carousel_create_time, carousel_update_time
+        )
+        VALUES (#{carousel_style,jdbcType=BIT}, #{carousel_path,jdbcType=VARCHAR},
+                #{carousel_create_time,jdbcType=TIMESTAMP}, #{carousel_update_time,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="vip.incolor.entity.Carousel">
+        insert into carousel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="carousel_id != null">
+                carousel_id,
+            </if>
+            <if test="carousel_style != null">
+                carousel_style,
+            </if>
+            <if test="carousel_path != null">
+                carousel_path,
+            </if>
+            <if test="carousel_create_time != null">
+                carousel_create_time,
+            </if>
+            <if test="carousel_update_time != null">
+                carousel_update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="carousel_id != null">
+                #{carousel_id,jdbcType=INTEGER},
+            </if>
+            <if test="carousel_style != null">
+                #{carousel_style,jdbcType=BIT},
+            </if>
+            <if test="carousel_path != null">
+                #{carousel_path,jdbcType=VARCHAR},
+            </if>
+            <if test="carousel_create_time != null">
+                #{carousel_create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="carousel_update_time != null">
+                #{carousel_update_time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="vip.incolor.entity.Carousel">
+        update carousel
+        <set>
+            <if test="carousel_style != null">
+                carousel_style = #{carousel_style,jdbcType=BIT},
+            </if>
+            <if test="carousel_path != null">
+                carousel_path = #{carousel_path,jdbcType=VARCHAR},
+            </if>
+            <if test="carousel_create_time != null">
+                carousel_create_time = #{carousel_create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="carousel_update_time != null">
+                carousel_update_time = #{carousel_update_time,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where carousel_id = #{carousel_id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="vip.incolor.entity.Carousel">
+        UPDATE carousel
+        SET carousel_style       = #{carousel_style,jdbcType=BIT},
+            carousel_path        = #{carousel_path,jdbcType=VARCHAR},
+            carousel_create_time = #{carousel_create_time,jdbcType=TIMESTAMP},
+            carousel_update_time = #{carousel_update_time,jdbcType=TIMESTAMP}
+        WHERE carousel_id = #{carousel_id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectCarousel" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from carousel
+        where carousel_style=0
+    </select>
+
+    <select id="selectTriangleCarousel" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from carousel
+        where carousel_style=1
+    </select>
+
+    <update id="updatePathById">
+        UPDATE carousel
+        SET
+            carousel_path = #{carouselPath,jdbcType=VARCHAR}
+        WHERE carousel_id = #{carouseId,jdbcType=INTEGER}
+    </update>
+</mapper>

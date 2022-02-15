@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.incolor.mapper.ProductPictureMapper">
+    <resultMap id="BaseResultMap" type="vip.incolor.entity.ProductPicture">
+        <id column="product_picture_id" jdbcType="INTEGER" property="product_picture_id"/>
+        <result column="product_id" jdbcType="INTEGER" property="product_id"/>
+        <result column="product_picture_type" jdbcType="BIT" property="product_picture_type"/>
+        <result column="product_picture_path" jdbcType="VARCHAR" property="product_picture_path"/>
+        <result column="product_picture_create_time" jdbcType="TIMESTAMP" property="product_picture_create_time"/>
+        <result column="product_picture_update_time" jdbcType="TIMESTAMP" property="product_picture_update_time"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        product_picture_id, product_id, product_picture_type, product_picture_path, product_picture_create_time,
+        product_picture_update_time
+    </sql>
+    <select id="selectByExample" parameterType="vip.incolor.entity.ProductPictureExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'false' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from product_picture
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from product_picture
+        where product_picture_id = #{product_picture_id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM product_picture
+        WHERE product_picture_id = #{product_picture_id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="vip.incolor.entity.ProductPicture">
+        INSERT INTO product_picture (product_picture_id, product_id, product_picture_type,
+                                     product_picture_path, product_picture_create_time,
+                                     product_picture_update_time)
+        VALUES (#{product_picture_id,jdbcType=INTEGER}, #{product_id,jdbcType=INTEGER},
+                #{product_picture_type,jdbcType=BIT},
+                #{product_picture_path,jdbcType=VARCHAR}, #{product_picture_create_time,jdbcType=TIMESTAMP},
+                #{product_picture_update_time,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="vip.incolor.entity.ProductPicture">
+        insert into product_picture
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="product_picture_id != null">
+                product_picture_id,
+            </if>
+            <if test="product_id != null">
+                product_id,
+            </if>
+            <if test="product_picture_type != null">
+                product_picture_type,
+            </if>
+            <if test="product_picture_path != null">
+                product_picture_path,
+            </if>
+            <if test="product_picture_create_time != null">
+                product_picture_create_time,
+            </if>
+            <if test="product_picture_update_time != null">
+                product_picture_update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="product_picture_id != null">
+                #{product_picture_id,jdbcType=INTEGER},
+            </if>
+            <if test="product_id != null">
+                #{product_id,jdbcType=INTEGER},
+            </if>
+            <if test="product_picture_type != null">
+                #{product_picture_type,jdbcType=BIT},
+            </if>
+            <if test="product_picture_path != null">
+                #{product_picture_path,jdbcType=VARCHAR},
+            </if>
+            <if test="product_picture_create_time != null">
+                #{product_picture_create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="product_picture_update_time != null">
+                #{product_picture_update_time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="vip.incolor.entity.ProductPicture">
+        update product_picture
+        <set>
+            <if test="product_id != null">
+                product_id = #{product_id,jdbcType=INTEGER},
+            </if>
+            <if test="product_picture_type != null">
+                product_picture_type = #{product_picture_type,jdbcType=BIT},
+            </if>
+            <if test="product_picture_path != null">
+                product_picture_path = #{product_picture_path,jdbcType=VARCHAR},
+            </if>
+            <if test="product_picture_create_time != null">
+                product_picture_create_time = #{product_picture_create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="product_picture_update_time != null">
+                product_picture_update_time = #{product_picture_update_time,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where product_picture_id = #{product_picture_id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="vip.incolor.entity.ProductPicture">
+        UPDATE product_picture
+        SET product_id                  = #{product_id,jdbcType=INTEGER},
+            product_picture_type        = #{product_picture_type,jdbcType=BIT},
+            product_picture_path        = #{product_picture_path,jdbcType=VARCHAR},
+            product_picture_create_time = #{product_picture_create_time,jdbcType=TIMESTAMP},
+            product_picture_update_time = #{product_picture_update_time,jdbcType=TIMESTAMP}
+        WHERE product_picture_id = #{product_picture_id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectPictureByProductId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from product_picture
+        where product_id = #{productId}
+    </select>
+    
+    <select id="selectProductPictureIdByProductId" parameterType="java.lang.Integer" resultType="vip.incolor.entity.ProductPicture">
+        select
+          product_picture_id
+        FROM product_picture
+        WHERE product_id = #{productId,jdbcType=INTEGER}
+    </select>
+
+
+    <update id="updatePictureByProductId">
+        UPDATE product_picture
+        SET
+            product_picture_path = #{path}
+        WHERE product_id = #{productId}
+    </update>
+
+    <update id="deletePictureByProductId">
+        UPDATE product_picture
+        SET
+            product_picture_path = ""
+        WHERE product_id = #{productId}
+    </update>
+</mapper>

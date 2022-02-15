@@ -1,0 +1,755 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.incolor.mapper.ProductMapper">
+    <resultMap id="BaseResultMap" type="vip.incolor.entity.Product">
+        <id column="product_id" jdbcType="INTEGER" property="product_id"/>
+        <result column="product_size" jdbcType="VARCHAR" property="product_size"/>
+        <result column="product_name" jdbcType="VARCHAR" property="product_name"/>
+        <result column="product_class_id" jdbcType="INTEGER" property="product_class_id"/>
+        <result column="product_price" jdbcType="DOUBLE" property="product_price"/>
+        <result column="product_estimate_price" jdbcType="VARCHAR" property="product_estimate_price"/>
+        <result column="product_estimate_deliver_time" jdbcType="INTEGER" property="product_estimate_deliver_time"/>
+        <result column="product_marketable" jdbcType="BIT" property="product_marketable"/>
+        <result column="product_attach_id" jdbcType="INTEGER" property="product_attach_id"/>
+        <result column="product_number" jdbcType="INTEGER" property="product_number"/>
+        <result column="product_picture_id" jdbcType="INTEGER" property="product_picture_id"/>
+        <result column="product_create_time" jdbcType="TIMESTAMP" property="product_create_time"/>
+        <result column="product_update_time" jdbcType="TIMESTAMP" property="product_update_time"/>
+        <result column="product_classify_id" jdbcType="INTEGER" property="product_classify_id"/>
+        <result column="product_tag" jdbcType="VARCHAR" property="product_tag"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        product_id, product_size, product_name, product_class_id, product_price, product_estimate_price, product_estimate_deliver_time, product_marketable, product_attach_id,
+        product_number, product_picture_id, product_create_time, product_update_time, product_classify_id, product_tag, product_is_new
+    </sql>
+    <select id="selectByExample" parameterType="vip.incolor.entity.ProductExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'false' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from product
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByExampless" parameterType="vip.incolor.entity.ProductExample" resultMap="BaseResultMap">
+
+    </select>
+    <select id="selectByExamples" parameterType="vip.incolor.entity.ProductExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'false' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from product
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by product_id DESC
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from product
+        where product_id = #{product_id,jdbcType=INTEGER}
+    </select>
+    <!--<select id="selectByPrimaryKeys" parameterType="java.lang.Integer" resultType="BaseResultMap">-->
+    <!--select-->
+    <!--<include refid="Base_Column_List"/>-->
+    <!--from product-->
+    <!--where product_id = #{product_id,jdbcType=INTEGER}-->
+    <!--ORDER BY product_id DESC-->
+    <!--</select>-->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE
+        FROM product
+        WHERE product_id = #{product_id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="vip.incolor.entity.Product">
+        INSERT INTO product (product_id,
+                             product_size,
+                             product_name,
+                             product_class_id,
+                             product_price,
+                             product_estimate_price,
+                             product_estimate_deliver_time,
+                             product_marketable,
+                             product_attach_id,
+                             product_number,
+                             product_picture_id,
+                             product_create_time,
+                             product_update_time,
+                             product_classify_id,
+                             product_tag)
+        VALUES (#{product_id,jdbcType=INTEGER},
+                #{product_size,jdbcType=INTEGER},
+                #{product_name,jdbcType=VARCHAR},
+                #{product_class_id,jdbcType=INTEGER},
+                #{product_price,jdbcType=DOUBLE},
+                #{product_estimate_price,jdbcType=VARCHAR},
+                #{product_estimate_deliver_time,jdbcType=INTEGER},
+                #{product_marketable,jdbcType=BIT},
+                #{product_attach_id,jdbcType=INTEGER},
+                #{product_number,jdbcType=INTEGER},
+                #{product_picture_id,jdbcType=INTEGER},
+                #{product_create_time,jdbcType=TIMESTAMP},
+                #{product_update_time,jdbcType=TIMESTAMP},
+                #{product_classify_id,jdbcType=INTEGER},
+                #{product_tag,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="vip.incolor.entity.Product">
+        insert into product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="product_id != null">
+                product_id,
+            </if>
+            <if test="product_size != null">
+                product_size,
+            </if>
+            <if test="product_name != null">
+                product_name,
+            </if>
+            <if test="product_class_id != null">
+                product_class_id,
+            </if>
+            <if test="product_price != null">
+                product_price,
+            </if>
+            <if test="product_estimate_price != null">
+                product_estimate_price,
+            </if>
+            <if test="product_estimate_deliver_time != null">
+                product_estimate_deliver_time,
+            </if>
+            <if test="product_marketable != null">
+                product_marketable,
+            </if>
+            <if test="product_attach_id != null">
+                product_attach_id,
+            </if>
+            <if test="product_number != null">
+                product_number,
+            </if>
+            <if test="product_picture_id != null">
+                product_picture_id,
+            </if>
+            <if test="product_create_time != null">
+                product_create_time,
+            </if>
+            <if test="product_update_time != null">
+                product_update_time,
+            </if>
+            <if test="product_classify_id != null">
+                product_classify_id,
+            </if>
+            <if test="product_tag != null">
+                product_tag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="product_id != null">
+                #{product_id,jdbcType=INTEGER},
+            </if>
+            <if test="product_size != null">
+                #{product_size,jdbcType=VARCHAR},
+            </if>
+            <if test="product_name != null">
+                #{product_name,jdbcType=VARCHAR},
+            </if>
+            <if test="product_class_id != null">
+                #{product_class_id,jdbcType=INTEGER},
+            </if>
+            <if test="product_price != null">
+                #{product_price,jdbcType=DOUBLE},
+            </if>
+            <if test="product_estimate_price != null">
+                #{product_estimate_price,jdbcType=VARCHAR},
+            </if>
+            <if test="product_estimate_deliver_time != null">
+                #{product_estimate_deliver_time,jdbcType=INTEGER},
+            </if>
+            <if test="product_marketable != null">
+                #{product_marketable,jdbcType=BIT},
+            </if>
+            <if test="product_attach_id != null">
+                #{product_attach_id,jdbcType=INTEGER},
+            </if>
+            <if test="product_number != null">
+                #{product_number,jdbcType=INTEGER},
+            </if>
+            <if test="product_picture_id != null">
+                #{product_picture_id,jdbcType=INTEGER},
+            </if>
+            <if test="product_create_time != null">
+                #{product_create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="product_update_time != null">
+                #{product_update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="product_classify_id != null">
+                #{product_classify_id,jdbcType=INTEGER},
+            </if>
+            <if test="product_tag != null">
+                #{product_tag,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="vip.incolor.entity.Product">
+        update product
+        <set>
+            <if test="product_size!= null">
+                product_size = #{product_size,jdbcType=VARCHAR},
+            </if>
+            <if test="product_name != null">
+                product_name = #{product_name,jdbcType=VARCHAR},
+            </if>
+            <if test="product_class_id != null">
+                product_class_id = #{product_class_id,jdbcType=INTEGER},
+            </if>
+            <if test="product_price != null">
+                product_price = #{product_price,jdbcType=DOUBLE},
+            </if>
+            <if test="product_estimate_price != null">
+                product_estimate_price = #{product_estimate_price,jdbcType=VARCHAR},
+            </if>
+            <if test="product_estimate_deliver_time != null">
+                product_estimate_deliver_time = #{product_estimate_deliver_time,jdbcType=INTEGER},
+            </if>
+            <if test="product_marketable != null">
+                product_marketable = #{product_marketable,jdbcType=BIT},
+            </if>
+            <if test="product_attach_id != null">
+                product_attach_id = #{product_attach_id,jdbcType=INTEGER},
+            </if>
+            <if test="product_number != null">
+                product_number = #{product_number,jdbcType=INTEGER},
+            </if>
+            <if test="product_picture_id != null">
+                product_picture_id = #{product_picture_id,jdbcType=INTEGER},
+            </if>
+            <if test="product_create_time != null">
+                product_create_time = #{product_create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="product_update_time != null">
+                product_update_time = #{product_update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="product_classify_id != null">
+                product_classify_id = #{product_classify_id,jdbcType=INTEGER},
+            </if>
+            <if test="product_tag != null">
+                product_tag = #{product_tag,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where product_id = #{product_id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="vip.incolor.entity.Product">
+        UPDATE product
+        SET product_size                  = #{product_size,jdbcType=VARCHAR},
+            product_name                  = #{product_name,jdbcType=VARCHAR},
+            product_class_id              = #{product_class_id,jdbcType=INTEGER},
+            product_price                 = #{product_price,jdbcType=DOUBLE},
+            product_estimate_price        = #{product_estimate_price,jdbcType=VARCHAR},
+            product_estimate_deliver_time = #{product_estimate_deliver_time,jdbcType=INTEGER},
+            product_marketable            = #{product_marketable,jdbcType=BIT},
+            product_attach_id             = #{product_attach_id,jdbcType=INTEGER},
+            product_number                = #{product_number,jdbcType=INTEGER},
+            product_picture_id            = #{product_picture_id,jdbcType=INTEGER},
+            product_create_time           = #{product_create_time,jdbcType=TIMESTAMP},
+            product_update_time           = #{product_update_time,jdbcType=TIMESTAMP},
+            product_classify_id           = #{product_classify_id,jdbcType=INTEGER},
+            product_tag                   = #{product_tag,jdbcType=VARCHAR}
+        WHERE product_id = #{product_id,jdbcType=INTEGER}
+    </update>
+
+    <select id="getMyShoppingCartProducts" resultType="vip.incolor.dto.ProductAndShopping">
+        SELECT p.*, s.shopping_number, s.shopping_price, s.shopping_id
+        FROM product AS p,
+             shopping AS s
+        WHERE s.user_id = #{userId,jdbcType=INTEGER}
+          AND s.product_id = p.product_id
+          AND s.is_payed = 0
+    </select>
+
+    <select id="getProductByOrderId" resultType="vip.incolor.dto.ProductAndOrderDetail">
+        SELECT p.*, od.number AS buyNumber
+        FROM product AS p,
+             order_detail AS od
+        WHERE od.order_id = #{orderId,jdbcType=INTEGER}
+          AND p.product_id = od.product_id
+    </select>
+
+    <select id="selectProductByName" parameterType="java.lang.String" resultMap="getProductVOMap">
+        SELECT *
+        FROM product pt,
+             product_picture pe
+        WHERE (LOCATE(#{searchContent}, pt.product_name) > 0 OR
+               LOCATE(pt.product_name, #{searchContent}) > 0 OR
+               LOCATE(#{searchContent}, pt.product_tag) > 0)
+          AND pt.product_picture_id = pe.product_picture_id
+    </select>
+
+    <resultMap type="vip.incolor.vo.ProductVO" id="getProductVOMap">
+        <id property="productId" column="product_id"/>
+        <result property="productType" column="class_name"/>
+        <result property="productSize" column="product_size"/>
+        <result property="productName" column="product_name"/>
+        <result property="productClassId" column="product_class_id"/>
+        <result property="productPrice" column="product_price"/>
+        <result property="productEstimatePrice" column="product_estimate_price"/>
+        <result property="productEstimateDeliverTime" column="product_estimate_deliver_time"/>
+        <result property="productAttachId" column="product_attach_id"/>
+        <result property="productNumber" column="product_number"/>
+        <result property="createTime" column="create_time"/>
+        <association property="picture" javaType="vip.incolor.entity.ProductPicture">
+            <id property="product_picture_id" column="product_picture_id"/>
+            <result property="product_picture_path" column="product_picture_path"/>
+            <result property="product_picture_type" column="product_picture_type"/>
+        </association>
+    </resultMap>
+
+    <select id="selectByClassId" parameterType="java.lang.Integer" resultType="vip.incolor.entity.ProductPicture">
+        SELECT pe.product_picture_id   product_picture_id,
+               pe.product_id           product_id,
+               pe.product_picture_path product_picture_path,
+               pe.product_picture_type product_picture_type
+        FROM product pt,
+             product_picture pe
+        WHERE pt.product_class_id = #{classId}
+          AND pt.product_id = pe.product_id
+    </select>
+
+
+    <select id="selectByProductId" parameterType="java.lang.Integer" resultMap="getProductVOMap">
+        SELECT *
+        FROM product pt,
+             product_picture pe
+        WHERE pt.product_picture_id = pe.product_picture_id
+          AND pt.product_id = #{productId}
+    </select>
+
+    <select id="selectPartsByProductId" parameterType="java.lang.Integer" resultMap="getProductVOMap">
+        SELECT *
+        FROM product pt,
+             product_picture pe,
+             classify c
+        WHERE pt.product_attach_id = #{productId}
+          AND pt.product_picture_id = pe.product_picture_id
+          AND pt.product_classify_id = c.class_id
+    </select>
+
+
+    <select id="selectFramePartByProductId" parameterType="java.lang.Integer" resultMap="getProductVOMap">
+        SELECT *
+        FROM product pt,
+             product_picture pe
+        WHERE pt.product_attach_id = #{productId}
+          AND LOCATE('车架', pt.product_name) > 0
+          AND pt.product_picture_id = pe.product_picture_id
+    </select>
+
+
+    <select id="selectOtherPartByProductId" parameterType="java.lang.Integer" resultMap="getProductVOMap">
+        SELECT *
+        FROM product pt,
+             product_picture pe
+        WHERE pt.product_attach_id = #{productId}
+          AND LOCATE('车架', pt.product_name) = 0
+          AND pt.product_picture_id = pe.product_picture_id
+    </select>
+
+
+    <select id="selectProductSizeById" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT product_size
+        FROM product
+        WHERE product_id = #{productId}
+
+    </select>
+
+    <select id="getOrderProduct" resultType="vip.incolor.dto.ProductAndOrderDetail">
+        SELECT p.*, s.shopping_number AS buyNumber, s.shopping_id AS shoppingId
+        FROM product AS p,
+             shopping AS s
+        WHERE s.order_id = #{orderId,jdbcType=INTEGER}
+          AND s.product_id = p.product_id
+    </select>
+
+    <select id="getMainProductProperty" resultType="vip.incolor.dto.Property">
+        SELECT sd.shopping_property_name AS k, pv.property_value
+        FROM shopping_detail AS sd,
+             property_value AS pv
+        WHERE sd.product_id = -1
+          AND sd.shopping_property_id = pv.property_id
+          AND sd.shopping_id = #{shoppingId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getSubProductProperty" resultType="vip.incolor.dto.Property">
+        SELECT sd.shopping_property_name AS k, pv.property_value, p.product_name AS `name`
+        FROM shopping_detail AS sd,
+             property_value AS pv,
+             product AS p
+        WHERE sd.product_id != -1
+          AND p.product_id = sd.product_id
+          AND sd.shopping_property_id = pv.property_id
+          AND sd.shopping_id = #{shoppingId,jdbcType=INTEGER}
+    </select>
+
+
+    <select id="selectNewProduct" parameterType="java.lang.Integer" resultType="vip.incolor.entity.ProductPicture">
+        SELECT pe.product_picture_id   product_picture_id,
+               pe.product_id           product_id,
+               pe.product_picture_path product_picture_path,
+               pe.product_picture_type product_picture_type
+        FROM product pt,
+             product_picture pe
+        WHERE pt.product_is_new = 1
+          AND pt.product_id = pe.product_id
+    </select>
+
+
+    <select id="getClassifyByProductId" resultType="vip.incolor.entity.Classify">
+        SELECT cl.class_name class_name, cl.is_parent is_parent, cl.parent_id parent_id
+        FROM product pt,
+             classify cl
+        WHERE pt.product_id = #{productId,jdbcType=INTEGER}
+          AND pt.product_classify_id = cl.class_id
+    </select>
+
+
+    <select id="getProductByProductId" parameterType="java.lang.Integer" resultType="vip.incolor.entity.Product">
+        SELECT product_size,
+               product_name,
+               product_price,
+               product_estimate_price,
+               product_estimate_deliver_time,
+               product_marketable,
+               product_number,
+               product_is_new
+        FROM product
+        WHERE product_id = #{productId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getProductPictureByProductId" parameterType="java.lang.Integer"
+            resultType="vip.incolor.entity.ProductPicture">
+        SELECT pp.product_picture_type product_picture_type, pp.product_picture_path product_picture_path
+        FROM product pt,
+             product_picture pp
+        WHERE pt.product_id = pp.product_id
+          AND pt.product_id = #{productId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getProductStyleByProductId" parameterType="java.lang.Integer"
+            resultType="vip.incolor.entity.ProductStyle">
+        SELECT ps.product_style_name    product_style_name,
+               ps.is_on_line            is_on_line,
+               ps.product_style_picture product_style_picture
+        FROM product pt,
+             product_style ps
+        WHERE pt.product_class_id = ps.product_style_id
+          AND pt.product_class_id IN
+              (SELECT pt1.product_class_id FROM product pt1 WHERE pt1.product_id = #{productId,jdbcType=INTEGER})
+    </select>
+
+    <update id="updateClassifyByProductId" parameterType="vip.incolor.entity.Classify">
+        UPDATE classify c, product p
+        SET c.class_name = #{class_name, jdbcType=VARCHAR},
+            c.is_parent  = #{is_parent, jdbcType=BIT},
+            c.parent_id  = #{parent_id, jdbcType=INTEGER}
+        WHERE c.class_id = p.product_classify_id
+          AND p.product_id = #{productId,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateProductByProductId" parameterType="vip.incolor.entity.Product">
+        UPDATE product
+        SET product_size  = #{product_size, jdbcType=INTEGER},
+            product_name  = #{product_name, jdbcType=INTEGER},
+            product_price = #{product_price, jdbcType=DOUBLE}
+        WHERE product_id = #{productId,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateProductPictureByProductId" parameterType="vip.incolor.entity.ProductPicture">
+        UPDATE product_picture pp, product p
+        SET pp.product_picture_type = #{product_picture_type, jdbcType=BIT},
+            pp.product_picture_path = #{product_picture_path, jdbcType=VARCHAR}
+        WHERE pp.product_id = p.product_id
+          AND p.product_id = #{productId,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateProductStyleByProductId" parameterType="vip.incolor.entity.ProductStyle">
+        UPDATE product_style ps, product p
+        SET ps.product_style_name    = #{product_style_name, jdbcType=VARCHAR},
+            ps.is_parent             = #{is_parent, jdbcType=BIT},
+            ps.is_on_line            = #{is_on_line, jdbcType=BIT},
+            ps.parent_id             = #{parent_id, jdbcType=INTEGER},
+            ps.product_style_picture = #{product_style_picture, jdbcType=VARCHAR}
+        WHERE ps.product_style_id = p.product_class_id
+          AND p.product_id = #{productId,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteClassifyByProductId" parameterType="java.lang.Integer">
+        DELETE
+        FROM classify
+        WHERE class_id IN (SELECT *
+                           FROM (SELECT cl.class_id
+                                 FROM product pt,
+                                      classify cl
+                                 WHERE pt.product_classify_id = cl.class_id
+                                   AND pt.product_id = #{productId,jdbcType=INTEGER}) v)
+    </delete>
+
+    <delete id="deleteProductPictureByProductId" parameterType="java.lang.Integer">
+        DELETE
+        FROM product_picture
+        WHERE product_picture_id IN (SELECT *
+                                     FROM (SELECT pp.product_picture_id
+                                           FROM product_picture pp,
+                                                product pt
+                                           WHERE pt.product_id = pp.product_id
+                                             AND pt.product_id = #{productId,jdbcType=INTEGER}) v)
+    </delete>
+
+    <delete id="deleteProductStyleByProductId" parameterType="java.lang.Integer">
+        DELETE
+        FROM product_style
+        WHERE product_style_id IN (SELECT *
+                                   FROM (SELECT ps.product_style_id
+                                         FROM product_style ps,
+                                              product pt
+                                         WHERE ps.product_style_id = pt.product_class_id
+                                           AND pt.product_id = #{productId,jdbcType=INTEGER}) v)
+    </delete>
+
+    <select id="selectProductInformation" resultType="vip.incolor.entity.Product">
+        SELECT pt.product_id             product_id,
+               pt.product_size           product_size,
+               pt.product_name           product_name,
+               pt.product_number         product_number,
+               pt.product_price          product_price,
+               pt.product_estimate_price product_estimate_price,
+               ps.product_style_id       product_style_id,
+               ps.product_style_name     product_style_name,
+               pp.product_picture_id     product_picture_id,
+               pp.product_picture_path   product_picture_path,
+               cy.class_id               class_id,
+               cy.class_name             class_name
+        FROM product pt,
+             product_style ps,
+             product_picture pp,
+             classify cy
+        WHERE cy.class_id = pt.product_classify_id
+          AND pp.product_id = pt.product_id
+          AND ps.product_style_id = pt.product_class_id
+    </select>
+
+    <select id="selectMainProductInformation" resultType="vip.incolor.entity.Product">
+        SELECT pt.product_id             product_id,
+               pt.product_size           product_size,
+               pt.product_name           product_name,
+               pt.product_number         product_number,
+               pt.product_price          product_price,
+               pt.product_estimate_price product_estimate_price,
+               ps.product_style_id       product_style_id,
+               ps.product_style_name     product_style_name,
+               pp.product_picture_id     product_picture_id,
+               pp.product_picture_path   product_picture_path,
+               cy.class_id               class_id,
+               cy.class_name             class_name
+        FROM product pt,
+             product_style ps,
+             product_picture pp,
+             classify cy
+        WHERE cy.class_id = pt.product_classify_id
+          AND pp.product_id = pt.product_id
+          AND ps.product_style_id = pt.product_class_id
+          AND pt.product_attach_id IN (SELECT pt.product_attach_id
+                                       FROM product pt1
+                                       WHERE pt1.product_id = pt.product_attach_id
+                                         AND pt1.product_id = #{productId,jdbcType=INTEGER})
+    </select>
+
+    <select id="selectProductByProductTag" resultType="vip.incolor.entity.Product">
+        SELECT product_id, product_name
+        FROM product
+        WHERE product_tag = #{productTag, jdbcType=VARCHAR}
+    </select>
+
+    <select id="getProductStyleName" resultType="vip.incolor.entity.ProductStyle">
+        SELECT DISTINCT product_style_name, product_style_id
+        FROM product_style
+        WHERE product_style_id IN (select distinct min(product_style_id) FROM product_style group by product_style_name)
+    </select>
+
+    <select id="getClassifyName" resultType="vip.incolor.entity.Classify">
+        SELECT DISTINCT class_name, class_id
+        FROM classify
+        WHERE class_id IN(select distinct min(class_id) from classify group by class_name)
+    </select>
+
+    <select id="getProductTag" resultType="vip.incolor.entity.Product">
+        SELECT distinct product_tag
+        FROM product
+        group by product_tag
+    </select>
+
+    <insert id="insertProduct" parameterType="vip.incolor.dto.ProductItemss">
+        INSERT INTO product (product_id,
+                             product_size,
+                             product_name,
+                             product_marketable,
+                             product_number,
+                             product_tag,
+                             product_class_id,
+                             product_classify_id,
+                             product_is_new,
+                             product_attach_id,
+                             product_estimate_price,
+                             product_price,
+                             product_estimate_deliver_time)
+        VALUES (#{product_id,jdbcType=INTEGER},
+                #{product_size,jdbcType=INTEGER},
+                #{product_name,jdbcType=VARCHAR},
+                #{product_marketable,jdbcType=BIT},
+                #{product_number,jdbcType=INTEGER},
+                #{product_tag,jdbcType=VARCHAR},
+                #{product_class_id,jdbcType=INTEGER},
+                #{product_classify_id,jdbcType=INTEGER},
+                #{product_is_new,jdbcType=BIT},
+                #{product_attach_id,jdbcType=INTEGER},
+                #{product_estimate_price,jdbcType=VARCHAR}.
+                #{product_price, jdbcType=DOUBLE},
+                #{product_estimate_deliver_time, jdbcType=INTEGER})
+    </insert>
+
+    <update id="updateProduct" parameterType="vip.incolor.dto.ProductItemss">
+        update product
+        <set>
+            <if test="product_size!= null">
+                product_size = #{product_size,jdbcType=VARCHAR},
+            </if>
+            <if test="product_name != null">
+                product_name = #{product_name,jdbcType=VARCHAR},
+            </if>
+            <if test="product_class_id != null">
+                product_class_id = #{product_class_id,jdbcType=INTEGER},
+            </if>
+            <if test="product_marketable != null">
+                product_marketable = #{product_marketable,jdbcType=BIT},
+            </if>
+            <if test="product_attach_id != null">
+                product_attach_id = #{product_attach_id,jdbcType=INTEGER},
+            </if>
+            <if test="product_number != null">
+                product_number = #{product_number,jdbcType=INTEGER},
+            </if>
+            <if test="product_picture_id != null">
+                product_picture_id = #{product_picture_id,jdbcType=INTEGER},
+            </if>
+            <if test="product_classify_id != null">
+                product_classify_id = #{product_classify_id,jdbcType=INTEGER},
+            </if>
+            <if test="product_tag != null">
+                product_tag = #{product_tag,jdbcType=VARCHAR},
+            </if>
+            <if test="product_price != null">
+                product_price = #{product_price,jdbcType=DOUBLE},
+            </if>
+            <if test="product_estimate_price != null">
+                product_estimate_price = #{product_estimate_price,jdbcType=VARCHAR},
+            </if>
+            <if test="product_estimate_deliver_time != null">
+                product_estimate_deliver_time = #{product_estimate_deliver_time,jdbcType=INTEGER},
+            </if>
+        </set>
+        where product_id = #{product_id,jdbcType=INTEGER}
+    </update>
+
+    <insert id="insertAttachProduct" parameterType="vip.incolor.dto.ProductItems">
+        INSERT INTO product (product_id,
+                             product_size,
+                             product_name,
+                             product_marketable,
+                             product_number,
+                             product_tag,
+                             product_class_id,
+                             product_classify_id,
+                             product_is_new,
+                             product_attach_id)
+        VALUES (#{product_id,jdbcType=INTEGER},
+                #{product_size,jdbcType=INTEGER},
+                #{product_name,jdbcType=VARCHAR},
+                #{product_marketable,jdbcType=BIT},
+                #{product_number,jdbcType=INTEGER},
+                #{product_tag,jdbcType=VARCHAR},
+                #{product_class_id,jdbcType=INTEGER},
+                #{product_classify_id,jdbcType=INTEGER},
+                #{product_is_new,jdbcType=BIT},
+                #{product_attach_id,jdbcType=INTEGER})
+    </insert>
+
+    <update id="updateAttachProduct" parameterType="vip.incolor.dto.ProductItems">
+        UPDATE product
+        SET product_name        = #{product_name,jdbcType=VARCHAR},
+            product_size        = #{product_size,jdbcType=INTEGER},
+            product_class_id    = #{product_class_id,jdbcType=INTEGER},
+            product_marketable  = #{product_marketable,jdbcType=BIT},
+            product_is_new      = #{product_is_new,jdbcType=BIT},
+            product_number      = #{product_number,jdbcType=INTEGER},
+            product_tag         = #{product_tag,jdbcType=VARCHAR},
+            product_classify_id = #{product_classify_id,jdbcType=INTEGER},
+            product_attach_id   = #{product_attach_id,jdbcType=INTEGER}
+        WHERE product_id = #{product_id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateProductSizePic">
+        UPDATE product
+        SET product_size = #{path}
+        WHERE product_id = #{productId}
+    </update>
+
+
+    <select id="selectProductDesc" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from product
+        WHERE product_attach_id= -1
+        order by product_id DESC
+    </select>
+
+</mapper>

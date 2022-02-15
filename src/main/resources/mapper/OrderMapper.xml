@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.incolor.mapper.OrderMapper">
+  <resultMap id="BaseResultMap" type="vip.incolor.entity.Order">
+    <id column="order_id" jdbcType="INTEGER" property="order_id" />
+    <result column="order_receiver" jdbcType="VARCHAR" property="order_receiver" />
+    <result column="user_id" jdbcType="INTEGER" property="user_id" />
+    <result column="order_phone" jdbcType="CHAR" property="order_phone" />
+    <result column="order_address" jdbcType="VARCHAR" property="order_address" />
+    <result column="order_postalcode" jdbcType="INTEGER" property="order_postalcode" />
+    <result column="order_express_number" jdbcType="INTEGER" property="order_express_number" />
+    <result column="order_create_times" jdbcType="TIMESTAMP" property="order_create_times" />
+    <result column="order_pay_time" jdbcType="TIMESTAMP" property="order_pay_time" />
+    <result column="order_estimate_deliver_time" jdbcType="TIMESTAMP" property="order_estimate_deliver_time" />
+    <result column="order_real_deliver_time" jdbcType="TIMESTAMP" property="order_real_deliver_time" />
+    <result column="order_state" jdbcType="BIT" property="order_state" />
+    <result column="order_status" jdbcType="VARCHAR" property="order_status" />
+    <result column="order_create_time" jdbcType="TIMESTAMP" property="order_create_time" />
+    <result column="order_update_time" jdbcType="TIMESTAMP" property="order_update_time" />
+    <result column="is_need_invoices" jdbcType="BIT" property="is_need_invoices" />
+    <result column="invoices_type" jdbcType="BIT" property="invoices_type" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    order_id, order_receiver, user_id, order_phone, order_address, order_postalcode,  order_express_number,
+    order_create_times, order_pay_time, order_estimate_deliver_time, order_real_deliver_time, 
+    order_state, order_status, order_create_time, order_update_time, is_need_invoices, 
+    invoices_type
+  </sql>
+  <select id="selectByExample" parameterType="vip.incolor.entity.OrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from `order`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `order`
+    where order_id = #{order_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `order`
+    where order_id = #{order_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="vip.incolor.entity.Order" useGeneratedKeys="true" keyProperty="order_id">
+    insert into `order` (order_id, order_receiver, user_id,
+      order_phone, order_address, order_postalcode,order_express_number,
+      order_create_times, order_pay_time, 
+      order_estimate_deliver_time, order_real_deliver_time, 
+      order_state, order_status, order_create_time, 
+      order_update_time, is_need_invoices, invoices_type
+      )
+    values (#{order_id,jdbcType=INTEGER}, #{order_receiver,jdbcType=VARCHAR}, #{user_id,jdbcType=INTEGER}, 
+      #{order_phone,jdbcType=CHAR}, #{order_address,jdbcType=VARCHAR}, #{order_postalcode,jdbcType=INTEGER}, #{order_express_number,jdbcType=INTEGER},
+      #{order_create_times,jdbcType=TIMESTAMP}, #{order_pay_time,jdbcType=TIMESTAMP}, 
+      #{order_estimate_deliver_time,jdbcType=TIMESTAMP}, #{order_real_deliver_time,jdbcType=TIMESTAMP}, 
+      #{order_state,jdbcType=BIT}, #{order_status,jdbcType=VARCHAR}, #{order_create_time,jdbcType=TIMESTAMP}, 
+      #{order_update_time,jdbcType=TIMESTAMP}, #{is_need_invoices,jdbcType=BIT}, #{invoices_type,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="vip.incolor.entity.Order">
+    insert into `order`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="order_id != null">
+        order_id,
+      </if>
+      <if test="order_receiver != null">
+        order_receiver,
+      </if>
+      <if test="user_id != null">
+        user_id,
+      </if>
+      <if test="order_phone != null">
+        order_phone,
+      </if>
+      <if test="order_address != null">
+        order_address,
+      </if>
+      <if test="order_postalcode != null">
+        order_postalcode,
+      </if>
+      <if test="order_express_number != null">
+        order_postalcode,
+      </if>
+      <if test="order_create_times != null">
+        order_create_times,
+      </if>
+      <if test="order_pay_time != null">
+        order_pay_time,
+      </if>
+      <if test="order_estimate_deliver_time != null">
+        order_estimate_deliver_time,
+      </if>
+      <if test="order_real_deliver_time != null">
+        order_real_deliver_time,
+      </if>
+      <if test="order_state != null">
+        order_state,
+      </if>
+      <if test="order_status != null">
+        order_status,
+      </if>
+      <if test="order_create_time != null">
+        order_create_time,
+      </if>
+      <if test="order_update_time != null">
+        order_update_time,
+      </if>
+      <if test="is_need_invoices != null">
+        is_need_invoices,
+      </if>
+      <if test="invoices_type != null">
+        invoices_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="order_id != null">
+        #{order_id,jdbcType=INTEGER},
+      </if>
+      <if test="order_receiver != null">
+        #{order_receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="user_id != null">
+        #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="order_phone != null">
+        #{order_phone,jdbcType=CHAR},
+      </if>
+      <if test="order_address != null">
+        #{order_address,jdbcType=VARCHAR},
+      </if>
+      <if test="order_postalcode != null">
+        #{order_postalcode,jdbcType=INTEGER},
+      </if>
+      <if test="order_express_number != null">
+        #{order_express_number,jdbcType=INTEGER},
+      </if>
+      <if test="order_create_times != null">
+        #{order_create_times,jdbcType=TIMESTAMP},
+      </if>
+      <if test="order_pay_time != null">
+        #{order_pay_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="order_estimate_deliver_time != null">
+        #{order_estimate_deliver_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="order_real_deliver_time != null">
+        #{order_real_deliver_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="order_state != null">
+        #{order_state,jdbcType=BIT},
+      </if>
+      <if test="order_status != null">
+        #{order_status,jdbcType=VARCHAR},
+      </if>
+      <if test="order_create_time != null">
+        #{order_create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="order_update_time != null">
+        #{order_update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="is_need_invoices != null">
+        #{is_need_invoices,jdbcType=BIT},
+      </if>
+      <if test="invoices_type != null">
+        #{invoices_type,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="vip.incolor.entity.Order">
+    update `order`
+    <set>
+      <if test="order_receiver != null">
+        order_receiver = #{order_receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="user_id != null">
+        user_id = #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="order_phone != null">
+        order_phone = #{order_phone,jdbcType=CHAR},
+      </if>
+      <if test="order_address != null">
+        order_address = #{order_address,jdbcType=VARCHAR},
+      </if>
+      <if test="order_postalcode != null">
+        order_postalcode = #{order_postalcode,jdbcType=INTEGER},
+      </if>
+      <if test="order_express_number != null">
+        order_express_number = #{order_express_number,jdbcType=INTEGER},
+      </if>
+      <if test="order_create_times != null">
+        order_create_times = #{order_create_times,jdbcType=TIMESTAMP},
+      </if>
+      <if test="order_pay_time != null">
+        order_pay_time = #{order_pay_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="order_estimate_deliver_time != null">
+        order_estimate_deliver_time = #{order_estimate_deliver_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="order_real_deliver_time != null">
+        order_real_deliver_time = #{order_real_deliver_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="order_state != null">
+        order_state = #{order_state,jdbcType=BIT},
+      </if>
+      <if test="order_status != null">
+        order_status = #{order_status,jdbcType=VARCHAR},
+      </if>
+      <if test="order_create_time != null">
+        order_create_time = #{order_create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="order_update_time != null">
+        order_update_time = #{order_update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="is_need_invoices != null">
+        is_need_invoices = #{is_need_invoices,jdbcType=BIT},
+      </if>
+      <if test="invoices_type != null">
+        invoices_type = #{invoices_type,jdbcType=BIT},
+      </if>
+    </set>
+    where order_id = #{order_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="vip.incolor.entity.Order">
+    update `order`
+    set order_receiver = #{order_receiver,jdbcType=VARCHAR},
+      user_id = #{user_id,jdbcType=INTEGER},
+      order_phone = #{order_phone,jdbcType=CHAR},
+      order_address = #{order_address,jdbcType=VARCHAR},
+      order_postalcode = #{order_postalcode,jdbcType=INTEGER},
+      order_express_number = #{order_express_number, jdbcType=INTEGER},
+      order_create_times = #{order_create_times,jdbcType=TIMESTAMP},
+      order_pay_time = #{order_pay_time,jdbcType=TIMESTAMP},
+      order_estimate_deliver_time = #{order_estimate_deliver_time,jdbcType=TIMESTAMP},
+      order_real_deliver_time = #{order_real_deliver_time,jdbcType=TIMESTAMP},
+      order_state = #{order_state,jdbcType=BIT},
+      order_status = #{order_status,jdbcType=VARCHAR},
+      order_create_time = #{order_create_time,jdbcType=TIMESTAMP},
+      order_update_time = #{order_update_time,jdbcType=TIMESTAMP},
+      is_need_invoices = #{is_need_invoices,jdbcType=BIT},
+      invoices_type = #{invoices_type,jdbcType=BIT}
+    where order_id = #{order_id,jdbcType=INTEGER}
+  </update>
+
+  <resultMap id="microMap" type="vip.incolor.dto.MicroOrder">
+    <id column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="order_receiver" jdbcType="VARCHAR" property="receiver" />
+    <result column="order_state" jdbcType="BIT" property="isPayed" />
+    <result column="order_status" jdbcType="VARCHAR" property="status"/>
+    <result column="order_create_times" jdbcType="TIMESTAMP"  property="time"/>
+    <result column="order_express_number" jdbcType="VARCHAR" property="expressNumber"/>
+  </resultMap>
+
+  <select id="getAllMicroOrder" resultMap="microMap">
+    select order_id,order_receiver,order_state,order_status,order_create_times,order_express_number
+    from `order`
+    where order_status != '待支付'
+    order by order_create_times desc
+  </select>
+
+<insert id="insertOrder" parameterType="vip.incolor.entity.Order">
+        INSERT INTO `order` (order_id, order_receiver, order_phone,
+                           order_address, order_postalcode, order_create_times,
+                           order_pay_time, order_estimate_deliver_time,
+                           order_real_deliver_time, order_status,
+                           order_create_time, order_update_time
+        )
+        VALUES (#{order_id,jdbcType=INTEGER}, #{order_receiver,jdbcType=VARCHAR}, #{order_phone,jdbcType=CHAR},
+                                              #{order_address,jdbcType=VARCHAR}, #{order_postalcode,jdbcType=INTEGER},
+                                              #{order_create_times,jdbcType=TIMESTAMP},
+                                              #{order_pay_time,jdbcType=TIMESTAMP},
+                                              #{order_estimate_deliver_time,jdbcType=TIMESTAMP},
+                                              #{order_real_deliver_time,jdbcType=TIMESTAMP},
+                                              #{order_status,jdbcType=TIMESTAMP},
+                                              #{order_create_time,jdbcType=TIMESTAMP},
+                #{order_update_time,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+  <select id="getPayedOrderTotal" resultType="java.lang.Integer">
+      SELECT count(*) FROM `order` WHERE order_status != '待支付'
+  </select>
+
+</mapper>
+
+
